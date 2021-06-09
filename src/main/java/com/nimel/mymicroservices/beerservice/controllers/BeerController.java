@@ -1,4 +1,4 @@
-package com.nimel.mymicroservices.beerservice.controllers;
+	package com.nimel.mymicroservices.beerservice.controllers;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +42,10 @@ public class BeerController {
 	
 	@GetMapping("beerpage")
 	public BeerPageList getAllBeersPages(@RequestParam(value="pageNumber",required=false)Integer pageNumber,
-										  @RequestParam(value="pageSize",required=false)Integer pageSize) {
+										  @RequestParam(value="pageSize",required=false)Integer pageSize,
+										  @RequestParam(value="beerName",required = false)String beerName,
+										  @RequestParam(value="beerStyle",required = false)String beerStyle,
+										  @RequestParam(value="showInventoryAtHand",required = false)Boolean showInventoryAtHand) {
 		
 		if(pageNumber == null || pageNumber<0 ) {
 			pageNumber = DEFAULT_PAGE_NUMBER;
@@ -51,7 +54,7 @@ public class BeerController {
 			pageSize = DEFAULT_PAGE_SIZE;
 		}
 		
-		return beerService.getAllBeersPages(PageRequest.of(pageNumber, pageSize));
+		return beerService.getAllBeersPages(PageRequest.of(pageNumber, pageSize),beerName,beerStyle,showInventoryAtHand);
 		
 	}
 	@GetMapping("beer")

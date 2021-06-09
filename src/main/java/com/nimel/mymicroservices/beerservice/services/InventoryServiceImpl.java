@@ -31,9 +31,6 @@ public class InventoryServiceImpl implements InventoryService {
 	public void setBeerInventoryServiceHost(String beerInventoryServiceHost) {
 		this.beerInventoryServiceHost = beerInventoryServiceHost;
 	}
-	//	public void setRestTemplate(RestTemplate restTemplate) {
-//		this.restTemplate = restTemplate;
-//	}
 //	private String inventorySerLink="http://localhost:8082/api/v1/beer/{beerId}/inventory";
 	@Override
 	public int getOnHandInventory(UUID beerId) {

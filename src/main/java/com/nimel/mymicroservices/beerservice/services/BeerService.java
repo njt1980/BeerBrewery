@@ -19,6 +19,6 @@ public interface BeerService {
 	
 	List<BeerDto> getAllBeers();
 	
-	BeerPageList getAllBeersPages(Pageable pageable);
+	BeerPageList getAllBeersPages(Pageable pageable, String beerName, String beerStyle, Boolean showInventoryAtHand);
 
 }

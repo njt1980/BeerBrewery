@@ -7,10 +7,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.nimel.mymicroservices.beerservice.dto.BeerDto;
 import com.nimel.mymicroservices.beerservice.dto.BeerPageList;
@@ -69,16 +71,50 @@ public class BeerServiceImpl implements BeerService{
 
 	}
 
+//	@Override
+//	public BeerPageList getAllBeersPages(Pageable pageable) {
+//		Page<Beer> beerPage = beerRepository.findAll(pageable);
+//		return new BeerPageList(beerPage
+//				.stream()
+//				.map(beerMapper::beerToBeerDto)
+//				.collect(Collectors.toList()),
+//						PageRequest.of(beerPage.getPageable().getPageNumber(),
+//						beerPage.getPageable().getPageSize()),
+//						beerPage.getTotalElements());
+//	}
+
 	@Override
-	public BeerPageList getAllBeersPages(Pageable pageable) {
-		Page<Beer> beerPage = beerRepository.findAll(pageable);
-		return new BeerPageList(beerPage
-				.stream()
-				.map(beerMapper::beerToBeerDto)
-				.collect(Collectors.toList()),
-						PageRequest.of(beerPage.getPageable().getPageNumber(),
-						beerPage.getPageable().getPageSize()),
-						beerPage.getTotalElements());
+	public BeerPageList getAllBeersPages(Pageable pageable, String beerName, String beerStyle,
+			Boolean showInventoryAtHand) {
+		Page<Beer> beerPage = null;
+		if(!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+			beerPage = beerRepository.findAllByBeerNameAndBeerStyle(pageable,beerName,beerStyle);
+		}else if(!StringUtils.isEmpty(beerName) && StringUtils.isEmpty(beerStyle)) {
+			beerPage = beerRepository.findAllByBeerName(pageable,beerName);
+		}else if(StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+			beerPage = beerRepository.findAllByBeerStyle(pageable,beerStyle);
+		}else {
+			beerPage = beerRepository.findAll(pageable);
+		}
+		System.out.println(showInventoryAtHand);
+		if(showInventoryAtHand) {
+			return new BeerPageList(beerPage
+					.getContent()
+					.stream()
+					.map(beerMapper::beerToBeerDtoWithInventory)
+					.collect(Collectors.toList()),
+					PageRequest.of(beerPage.getPageable().getPageNumber(),beerPage.getPageable().getPageSize()),
+					beerPage.getTotalElements());
+		} else {
+			return new BeerPageList(beerPage
+					.getContent()
+					.stream()
+					.map(beerMapper::beerToBeerDto)
+					.collect(Collectors.toList()),
+					PageRequest.of(beerPage.getPageable().getPageNumber(),beerPage.getPageable().getPageSize()),
+					beerPage.getTotalElements());
+		}
+				
 	}
 
 	
