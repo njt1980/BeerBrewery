@@ -43,6 +43,8 @@ public class BeerDto {
 	@Positive
 	private int price;
 	
+	private int quantityOnHand;
+	
 	private int minOnHand;
 	private int quantityToBrew;
 

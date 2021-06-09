@@ -1,0 +1,3 @@
+INSERT INTO beer (id,beer_name,beer_style,created_date,last_modified_date,min_on_hand,price,quantity_to_brew,upc,version) values ('0a818933087d47f2ad832f986ed087eb','Beer1','Style1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,12,2.5,200,'0631234200036',1);
+INSERT INTO beer (id,beer_name,beer_style,created_date,last_modified_date,min_on_hand,price,quantity_to_brew,upc,version) values ('a712d91461ea46238bd032c0f6545bfd','Beer2','Style2',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,12,2.5,200,'0631234300019',1);
+INSERT INTO beer (id,beer_name,beer_style,created_date,last_modified_date,min_on_hand,price,quantity_to_brew,upc,version) values ('026cc3c83a0c4083a05be908048c1b08','Beer3','Style3',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,12,2.5,200,'0083783375213',1);

@@ -1,10 +1,12 @@
 package com.nimel.mymicroservices.beerservice.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +15,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nimel.mymicroservices.beerservice.dto.BeerDto;
+import com.nimel.mymicroservices.beerservice.dto.BeerPageList;
 import com.nimel.mymicroservices.beerservice.services.BeerService;
+
+import ch.qos.logback.core.joran.conditional.IfAction;
 
 @RestController
 @RequestMapping("/api/v1")
 public class BeerController {
+	
+	private static final Integer DEFAULT_PAGE_NUMBER = 0;
+	private static final Integer DEFAULT_PAGE_SIZE = 25;
 	
 	@Autowired
 	private BeerService beerService;
@@ -30,6 +39,26 @@ public class BeerController {
 		BeerDto beerDto =  beerService.getById(beerId);
 		return new ResponseEntity<>(beerDto,HttpStatus.OK);
 	}
+	
+	@GetMapping("beerpage")
+	public BeerPageList getAllBeersPages(@RequestParam(value="pageNumber",required=false)Integer pageNumber,
+										  @RequestParam(value="pageSize",required=false)Integer pageSize) {
+		
+		if(pageNumber == null || pageNumber<0 ) {
+			pageNumber = DEFAULT_PAGE_NUMBER;
+		}
+		if(pageSize == null || pageSize<0 ) {
+			pageSize = DEFAULT_PAGE_SIZE;
+		}
+		
+		return beerService.getAllBeersPages(PageRequest.of(pageNumber, pageSize));
+		
+	}
+	@GetMapping("beer")
+	public ResponseEntity<List<BeerDto>> getAllBeers(){
+		return new ResponseEntity<>(beerService.getAllBeers(),HttpStatus.OK);
+	}
+	
 	@PostMapping("beer")
 	public ResponseEntity saveNewBeer(@RequestBody BeerDto beerDto) {
 		return new ResponseEntity<>(beerService.saveBeer(beerDto),HttpStatus.CREATED);
@@ -38,5 +67,6 @@ public class BeerController {
 	public ResponseEntity updateBeer(@PathVariable UUID beerId,@RequestBody BeerDto beerDto) {
 		return new ResponseEntity<>(beerService.updateBeer(beerId, beerDto),HttpStatus.NO_CONTENT);
 	}
+	
 
 }
