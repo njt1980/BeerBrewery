@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.origin.SystemEnvironmentOrigin;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,10 +38,15 @@ public class BeerServiceImpl implements BeerService{
 	
 	
 //	private final BeerMapper beerMapper;
-
+	@Cacheable(cacheNames = "beerCache",key = "#beerId" ,condition = "#showInventoryAtHand == false")
 	@Override
-	public BeerDto getById(UUID id) {
-		return beerMapper.beerToBeerDto(beerRepository.findById(id).orElseThrow(NotFoundException::new));
+	public BeerDto getById(UUID id, Boolean showInventoryAtHand) {
+		System.out.println("Getting data from database - SingleBeer");
+		if(showInventoryAtHand) {
+		return beerMapper.beerToBeerDtoWithInventory(beerRepository.findById(id).orElseThrow(NotFoundException::new));
+		}else {
+		return beerMapper.beerToBeerDto(beerRepository.findById(id).orElseThrow(NotFoundException::new));	
+		}
 	}
 
 	@Override
@@ -83,10 +89,15 @@ public class BeerServiceImpl implements BeerService{
 //						beerPage.getTotalElements());
 //	}
 
+	@Cacheable(cacheNames = "beerListCache" ,condition = "#showInventoryAtHand == false ")
 	@Override
 	public BeerPageList getAllBeersPages(Pageable pageable, String beerName, String beerStyle,
 			Boolean showInventoryAtHand) {
+		System.out.println("Getting data from database");
 		Page<Beer> beerPage = null;
+		if(showInventoryAtHand == null) {
+			showInventoryAtHand = false;
+		}
 		if(!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
 			beerPage = beerRepository.findAllByBeerNameAndBeerStyle(pageable,beerName,beerStyle);
 		}else if(!StringUtils.isEmpty(beerName) && StringUtils.isEmpty(beerStyle)) {
@@ -115,6 +126,14 @@ public class BeerServiceImpl implements BeerService{
 					beerPage.getTotalElements());
 		}
 				
+	}
+	
+	@Cacheable(cacheNames = "beerUpcCache",key="#upc")
+	@Override
+	public BeerDto getByUpc(String upc) {
+		System.out.println("Getting data from DB");
+		Beer beer=beerRepository.findByUpc(upc);
+		return beerMapper.beerToBeerDto(beer);
 	}
 
 	

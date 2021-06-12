@@ -1,5 +1,6 @@
 package com.nimel.mymicroservices.beerservice.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BeerDto {
+public class BeerDto implements Serializable{
 	
 	@Null
 	private UUID id;

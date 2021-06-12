@@ -34,9 +34,17 @@ public class BeerController {
 	@Autowired
 	private BeerService beerService;
 	
+	
+	@GetMapping("beerUpc/{upc}")
+	public ResponseEntity<BeerDto> getBeerByUpc(@PathVariable String upc){
+		BeerDto beerDto =  beerService.getByUpc(upc);
+		return new ResponseEntity<>(beerDto,HttpStatus.OK);
+	}
+	
+	
 	@GetMapping("beer/{beerId}")
-	public ResponseEntity<BeerDto> getBeerById(@PathVariable UUID beerId){
-		BeerDto beerDto =  beerService.getById(beerId);
+	public ResponseEntity<BeerDto> getBeerById(@PathVariable UUID beerId,@RequestParam(value="showInventoryAtHand",required = false) Boolean showInventoryAtHand){
+		BeerDto beerDto =  beerService.getById(beerId,showInventoryAtHand);
 		return new ResponseEntity<>(beerDto,HttpStatus.OK);
 	}
 	

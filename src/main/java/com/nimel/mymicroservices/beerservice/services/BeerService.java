@@ -11,7 +11,7 @@ import com.nimel.mymicroservices.beerservice.dto.BeerPageList;
 
 public interface BeerService {
 	
-	BeerDto getById(UUID id);
+	BeerDto getById(UUID id, Boolean showInventoryAtHand);
 	
 	BeerDto saveBeer(BeerDto beerDto);
 	
@@ -20,5 +20,7 @@ public interface BeerService {
 	List<BeerDto> getAllBeers();
 	
 	BeerPageList getAllBeersPages(Pageable pageable, String beerName, String beerStyle, Boolean showInventoryAtHand);
+
+	BeerDto getByUpc(String upc);
 
 }

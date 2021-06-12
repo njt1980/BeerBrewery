@@ -1,5 +1,6 @@
 package com.nimel.mymicroservices.beerservice.dto;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InventoryDto {
+public class InventoryDto implements Serializable {
 	private UUID id;
     private OffsetDateTime createdDate;
     private OffsetDateTime lastModifiedDate;
