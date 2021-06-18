@@ -35,9 +35,9 @@ public class InventoryServiceImpl implements InventoryService {
 	@Override
 	public int getOnHandInventory(UUID beerId) {
 		
-		log.debug("Going to access Inventory Service");
-		System.out.println("Going to access Inventory Service");
-		System.out.println(restTemplate);
+//		log.debug("Going to access Inventory Service");
+//		System.out.println("Going to access Inventory Service");
+//		System.out.println(restTemplate);
 		ResponseEntity<List<InventoryDto>> responseEntity=restTemplate
 				.exchange(beerInventoryServiceHost + INVENTORY_PATH,HttpMethod.GET,null,new ParameterizedTypeReference<List<InventoryDto>>(){},(Object) beerId);
 		

@@ -4,12 +4,13 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.nimel.mymicroservices.beerservice.dto.BeerDto;
 import com.nimel.mymicroservices.beerservice.entities.Beer;
 
-public interface BeerRepository extends PagingAndSortingRepository<Beer, UUID>{
+public interface BeerRepository extends JpaRepository<Beer, UUID>{
 	
 	Page<Beer> findAllByBeerNameAndBeerStyle(Pageable pageable,String beerName,String beerStyle);
 	

@@ -14,7 +14,7 @@ import com.nimel.mymicroservices.beerservice.services.InventoryService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SpringBootTest
+//@SpringBootTest
 class BeerserviceApplicationTests {
 	@Autowired
 	private InventoryService inventoryService;
@@ -22,7 +22,7 @@ class BeerserviceApplicationTests {
 	private BeerService beerService;
 	
 	
-	@Test
+//	@Test
 	void contextLoads() {
 		System.out.println("Am here..");
 		log.debug("Going to get quantity..");
@@ -31,7 +31,7 @@ class BeerserviceApplicationTests {
 		log.debug("On Hand is : {}",onHand);
 	}
 	
-	@Test
+//	@Test
 	void Test1() {
 		List beerList= beerService.getAllBeers();
 		System.out.println(beerList);
