@@ -49,7 +49,7 @@ public class BeerBootstrap implements CommandLineRunner{
 				.beerStyle("Style1")
 				.minOnHand(12)
 				.price(2)
-				.quantityToBrew(10)
+				.quantityToBrew(50)
 				.upc(BEER_1_UPC)
 //				.id(BEER_1_UUID)
 				.build();
@@ -60,7 +60,7 @@ public class BeerBootstrap implements CommandLineRunner{
 				.beerStyle("Style2")
 				.minOnHand(12)
 				.price(2)
-				.quantityToBrew(10)
+				.quantityToBrew(50)
 				.upc(BEER_2_UPC)
 //				.id(BEER_2_UUID)
 				.build();
@@ -70,7 +70,7 @@ public class BeerBootstrap implements CommandLineRunner{
 				.beerStyle("Style3")
 				.minOnHand(12)
 				.price(2)
-				.quantityToBrew(10)
+				.quantityToBrew(50)
 				.upc(BEER_3_UPC)
 //				.id(BEER_3_UUID)
 				.build();
