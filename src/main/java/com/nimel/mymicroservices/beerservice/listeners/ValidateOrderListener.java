@@ -1,5 +1,6 @@
 package com.nimel.mymicroservices.beerservice.listeners;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -17,16 +18,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValidateOrderListener {
-	
+	@Autowired
 	private BeerOrderValidator beerOrderValidator;
+	@Autowired
 	private JmsTemplate jmsTemplate;
 	
 	@JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
-	public void Listen(ValidateOrderRequest validateOrderRequest ) {
+	public void listen(ValidateOrderRequest validateOrderRequest ) {
+		
+		System.out.println("Validate request dto from queue" +  validateOrderRequest.getBeerOrderDto());
 		
 		Boolean isValid = beerOrderValidator.validateBeer(validateOrderRequest.getBeerOrderDto());
 		
-		jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE, ValidateOrderResult.builder()
+		jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE, 
+				ValidateOrderResult.builder()
 				.beerOrderId(validateOrderRequest.getBeerOrderDto().getId())
 				.isValid(isValid)
 				.build());

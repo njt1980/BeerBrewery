@@ -8,7 +8,6 @@ import org.springframework.jms.support.converter.MessageType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.micrometer.core.instrument.Statistic;
 
 @Configuration
 public class JmsConfig {
