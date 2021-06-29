@@ -27,6 +27,7 @@ public class ValidateOrderListener {
 	public void listen(ValidateOrderRequest validateOrderRequest ) {
 		
 		System.out.println("Validate request dto from queue" +  validateOrderRequest.getBeerOrderDto());
+		System.out.println("Beer Order id for request in order validation queue" + validateOrderRequest.getBeerOrderDto().getId());
 		
 		Boolean isValid = beerOrderValidator.validateBeer(validateOrderRequest.getBeerOrderDto());
 		
