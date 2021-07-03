@@ -23,6 +23,8 @@ import com.nimel.mymicroservices.beerservice.mappers.BeerMapper;
 import com.nimel.mymicroservices.beerservice.repository.BeerRepository;
 
 import ch.qos.logback.classic.Logger;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,18 +32,25 @@ import lombok.extern.slf4j.Slf4j;
 //@RequiredArgsConstructor
 @Slf4j
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class BeerServiceImpl implements BeerService{
+	
 	@Autowired
 	private BeerRepository beerRepository;
 	@Autowired
 	private BeerMapper beerMapper;
+	
+//	Boolean showInventoryAtHand = false;
 	
 	
 //	private final BeerMapper beerMapper;
 	@Cacheable(cacheNames = "beerCache",key = "#beerId" ,condition = "#showInventoryAtHand == false")
 	@Override
 	public BeerDto getById(UUID id, Boolean showInventoryAtHand) {
-		System.out.println("Getting data from database - SingleBeer");
+		if(showInventoryAtHand == null) {showInventoryAtHand = false;}
+//		System.out.println("Getting data from database - SingleBeer");
+//		System.out.println("showInventoryAtHand " + showInventoryAtHand);
 		if(showInventoryAtHand) {
 		return beerMapper.beerToBeerDtoWithInventory(beerRepository.findById(id).orElseThrow(NotFoundException::new));
 		}else {

@@ -29,11 +29,11 @@ public class BrewingService {
 	
 	@Scheduled(fixedRate = 5000)
 	public void checkForLowInventory() {
-		System.out.println("In quantity check module..");
+//		System.out.println("In quantity check module..");
 		List<Beer> listOfBeers = beerRepository.findAll();
 		listOfBeers.forEach(beer -> {
 			int quantityOnHand = inventoryService.getOnHandInventory(beer.getId());
-			System.out.println("Qnty on Hand for " + beer.getId() + "is" + quantityOnHand);
+//			System.out.println("Qnty on Hand for " + beer.getId() + "is" + quantityOnHand);
 //			log.debug("Beer is {}",beer.getBeerName());
 //			log.debug("quantity is {}",quantityOnHand);
 //			System.out.println("Beer is " + beer.getBeerName());
